@@ -6,8 +6,6 @@
 Сформировать (вывести) все возможные варианты меню полдника (1 фрукт) для ребенка на неделю.
 '''
 
-import itertools
-
 num_fruits = int(input("Введите количество доступных фруктов: "))
 
 if num_fruits == 0:
@@ -18,9 +16,18 @@ else:
 
     # Создаем список списков для каждого дня недели
     week_fruits = [fruits] * 7
-    
+
+    def get_combinations(week_fruits, size, combination):
+        if size == 0:
+            yield combination
+            return
+        for fruit in week_fruits[0]:
+            new_combination = combination + [fruit]
+            yield from get_combinations(week_fruits[1:], size-1, new_combination)
+
     # Получаем все возможные комбинации фруктов заданного размера для каждого дня недели
-    fruit_combinations = list(itertools.product(*week_fruits))
+    fruit_combinations = list(get_combinations(week_fruits, 7, []))
     
     for combination in fruit_combinations:
         print(combination)
+
