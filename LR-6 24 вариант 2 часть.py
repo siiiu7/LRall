@@ -8,12 +8,19 @@
 # Программа выводит все возможные комбинации из 4 фруктов с их калорийностью 
 # и находит комбинацию с самым большим количеством калорий.
 
-from itertools import combinations
-
 fruits = {'ф1': 57, 'ф2': 89, 'ф3': 47, 'ф4': 40, 'ф5': 34, 'ф6': 52, 'ф7': 67, 'ф8': 85}
 
+def get_combinations(fruits, size, combination, start):
+    if size == 0:
+        yield combination
+        return
+    for index in range(start, len(fruits)):
+        fruit = list(fruits.keys())[index]
+        new_combination = combination + [fruit]
+        yield from get_combinations(fruits, size-1, new_combination, index+1)
+
 # Получаем все возможные комбинации из 4 фруктов
-combs = combinations(fruits.keys(), 4)
+combs = list(get_combinations(fruits, 4, [], 0))
 
 # Создаем список кортежей с комбинациями и их калорийностью
 calories_list = [(comb, sum([fruits[fruit] for fruit in comb])) for comb in combs]
@@ -23,4 +30,4 @@ sorted_calories_list = sorted(calories_list, reverse=True, key=lambda x: x[1])
 
 max_combination, max_calories = sorted_calories_list[0] 
 
-print(f"Самая калорийная комбинация из 4 фруктов - {max_combination} с общей калорийностью {max_calories}")   
+print(f"Самая калорийная комбинация из 4 фруктов - {max_combination} с общей калорийностью {max_calories}")
