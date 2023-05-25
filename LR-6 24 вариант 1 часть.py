@@ -25,7 +25,7 @@ else:
             new_combination = combination + [fruit]
             yield from get_combinations(week_fruits[1:], size-1, new_combination)
 
-    # Получаем все возможные комбинации фруктов заданного размера для каждого дня недели
+    # Все возможные комбинации фруктов заданного размера для каждого дня недели
     fruit_combinations = list(get_combinations(week_fruits, 7, []))
     
     for combination in fruit_combinations:
